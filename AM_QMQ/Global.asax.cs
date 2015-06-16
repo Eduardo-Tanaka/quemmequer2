@@ -13,8 +13,8 @@ namespace AM_QMQ
     {
         protected void Application_Start()
         {
-            //Database.SetInitializer<QMQContext>(new DropCreateDatabaseAlways<QMQContext>());
-            Database.SetInitializer(new CreateDatabaseIfNotExists<QMQContext>());
+            Database.SetInitializer<QMQContext>(new DropCreateDatabaseAlways<QMQContext>());
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<QMQContext>());
             //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<QMQContext>());
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
