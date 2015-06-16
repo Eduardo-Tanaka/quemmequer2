@@ -10,7 +10,7 @@ namespace AM_QMQ.Models
     [Table("T_JAV_LEGAL")]
     public class PersonLegal : Person
     {
-        [Column("NAM_Trading")]
+        [Column("NAM_TRADING")]
         [Display(Name="Nome Fantasia")]
         public string TradingName { get; set; }
 

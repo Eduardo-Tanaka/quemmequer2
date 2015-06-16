@@ -4,6 +4,7 @@ using AM_QMQ.ViewsModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -101,6 +102,11 @@ namespace AM_QMQ.Controllers
         [HttpPost]
         public ActionResult Logar(LogarViewModel usuario, string returnUrl)
         {
+            using (var client = new HttpClient())
+            {
+                
+            }
+
             var user = _unit.PessoaRepository.Logar(usuario.Email, usuario.Password);
             if (user != null)
             {
@@ -119,7 +125,13 @@ namespace AM_QMQ.Controllers
                 TempData["msg"] = "Usuário ou senha Inválidos";
                 return View();
             }
-        } 
+        }
+
+        public ActionResult Deslogar()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Logar", "Pessoa");
+        }
 
         protected override void Dispose(bool disposing)
         {
