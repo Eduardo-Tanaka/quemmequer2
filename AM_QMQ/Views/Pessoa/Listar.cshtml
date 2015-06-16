@@ -1,0 +1,35 @@
+﻿@model List<AM_QMQ.Models.Person>
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Listar</h2>
+
+@Helper.Mensagem(TempData["msg"] as string, "success")
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="text-center">Id</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Nome de Usuário</th>
+            <th class="text-center">Tipo</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Senha</th>
+            <th class="text-center">Data de Cadastro</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td class="text-center">@p.PersonId</td>
+                <td class="text-center">@p.Email</td>
+                <td class="text-center">@p.UserName</td>
+                <td class="text-center">@p.Type</td>
+                <td class="text-center">@p.Status</td>
+                <td class="text-center">@p.Password</td>
+                <td class="text-center">@p.FiledDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
