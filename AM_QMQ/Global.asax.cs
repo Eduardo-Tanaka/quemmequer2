@@ -10,7 +10,7 @@ using System.Web.Routing;
 
 namespace AM_QMQ
 {
-    public class Global : HttpApplication
+    public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
