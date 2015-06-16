@@ -10,27 +10,26 @@ using System.Web.Http.Cors;
 
 namespace AM_QMQ.Controllers
 {
+
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class LogarWSController : ApiController
     {
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public class LogarWSController : ApiController
-        {
-            private UnitOfWork _unit = new UnitOfWork();
+        private UnitOfWork _unit = new UnitOfWork();
 
-            public Person Post(Person person)
+        public Person Post(Person person)
+        {
+            var user = _unit.PessoaRepository.Logar(person.Email, person.Password);
+            if (user == null)
             {
-                var user = _unit.PessoaRepository.Logar(person.Email, person.Password);
-                if (user == null)
-                {
-                    Person p = new Person();
-                    p.Email = "Invalido";
-                    return p;
-                }
-                else
-                {
-                    return user;
-                }
+                Person p = new Person();
+                p.Email = "Invalido";
+                return p;
+            }
+            else
+            {
+                return user;
             }
         }
+        
     }
 }
