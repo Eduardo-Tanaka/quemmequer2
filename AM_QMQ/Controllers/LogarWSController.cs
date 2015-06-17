@@ -19,16 +19,7 @@ namespace AM_QMQ.Controllers
         public Person Post(Person person)
         {
             var user = _unit.PessoaRepository.Logar(person.Email, person.Password);
-            if (user == null)
-            {
-                Person p = new Person();
-                p.Email = "Invalido";
-                return p;
-            }
-            else
-            {
-                return user;
-            }
+            return user;
         }
         
     }

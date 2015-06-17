@@ -104,25 +104,31 @@ namespace AM_QMQ.Controllers
         {
             using (var client = new HttpClient())
             {
-                
-            }
-
-            var user = _unit.PessoaRepository.Logar(usuario.Email, usuario.Password);
-            if (user != null)
-            {
-                FormsAuthentication.SetAuthCookie(user.UserName, false);
-                if (String.IsNullOrEmpty(returnUrl))
+                //client.BaseAddress = new Uri("http://localhost:2896/");
+                client.BaseAddress = new Uri("http://quemmequer.apphb.com/");
+                var cli = new Person() { Email = usuario.Email, Password = usuario.Password };
+                HttpResponseMessage response = client.PostAsJsonAsync("api/logarws", cli).Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("Index", "Home");
+                    Person p = response.Content.ReadAsAsync<Person>().Result;
+                    if (p != null)
+                    {
+                        FormsAuthentication.SetAuthCookie(p.UserName, false);
+                        if (String.IsNullOrEmpty(returnUrl))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            return Redirect(returnUrl);
+                        }
+                    }
+                    else
+                    {
+                        TempData["msg"] = "Usuário ou senha Inválidos";
+                        return View();
+                    }
                 }
-                else
-                {
-                    return Redirect(returnUrl);
-                }
-            }
-            else
-            {
-                TempData["msg"] = "Usuário ou senha Inválidos";
                 return View();
             }
         }
