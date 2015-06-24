@@ -1,5 +1,6 @@
 ﻿using AM_QMQ.Models;
 using AM_QMQ.UnitsOfWork;
+using AM_QMQ.ViewsModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,71 @@ namespace AM_QMQ.Controllers
     {
         private UnitOfWork _unit = new UnitOfWork();
 
-        public IEnumerable<Person> Get()
+        public IHttpActionResult Get()
         {
-            return _unit.PessoaRepository.List();
+            return BadRequest("Email já cadastrado");
+           // return _unit.PessoaRepository.List();
+        }
+
+        public IEnumerable<Person> GetPersonByEmail(string email)
+        {
+            return _unit.PessoaRepository.SearchFor(p => p.Email == email);
+        }
+
+        public IHttpActionResult Post(PersonViewModel model)
+        {
+            if (_unit.PessoaRepository.SearchFor(p => p.UserName == model.UserName).Count != 0)
+            {
+                ModelState.AddModelError("UserName", "Nome de Usuário já Cadastrado");
+                return BadRequest(ModelState);
+            }
+            if (_unit.PessoaRepository.SearchFor(p => p.Email == model.Email).Count != 0)
+            {
+                return BadRequest("Email já cadastrado");
+            }
+            if (ModelState.IsValid)
+            {
+                if (model.Type == "I")
+                {
+                    var individual = new PersonIndividual
+                    {
+                        PersonId = model.PersonId,
+                        Status = "0",
+                        FiledDate = DateTime.Today,
+                        Email = model.Email,
+                        Password = model.Password,
+                        Type = "I",
+                        UserName = model.UserName,
+                        BirthDayDate = DateTime.Today
+                    };
+                    _unit.PessoaRepository.Add(individual);
+                    _unit.Save();
+                    var uri = Url.Link("DefaultApi", new { id = model.PersonId });
+                    return Created<PersonIndividual>(new Uri(uri), individual);
+                }
+                else if (model.Type == "L")
+                {
+                    var legal = new PersonLegal
+                    {
+                        PersonId = model.PersonId,
+                        Status = "0",
+                        FiledDate = DateTime.Today,
+                        Email = model.Email,
+                        Password = model.Password,
+                        Type = "L",
+                        UserName = model.UserName
+                    };
+                    _unit.PessoaRepository.Add(legal);
+                    _unit.Save();
+                    var uri = Url.Link("DefaultApi", new { id = model.PersonId });
+                    return Created<PersonLegal>(new Uri(uri), legal);
+                }
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
     }

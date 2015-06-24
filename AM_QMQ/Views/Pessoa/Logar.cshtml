@@ -29,4 +29,24 @@
             @Html.ActionLink("Cadastrar", "Cadastrar", "Pessoa", null, new { @class = "btn btn-info" })
         </div>
     </div>
+    
+    <div>
+        <button id="botao">botao</button>
+    </div>
 }
+
+<script>
+    $().ready(function () {
+        $("#botao").on("click", function () {
+         
+            $.ajax({
+                url: "http://quemmequer.apphb.com/api/pessoaws",
+                type: "get",
+                success: function (retorno) {
+                    console.log("TESTESTETE" + retorno);
+                    alert(retorno[0].email);
+                }
+            })
+        })
+    })
+</script>

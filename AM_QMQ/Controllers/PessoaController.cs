@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -35,16 +36,21 @@ namespace AM_QMQ.Controllers
                 ModelState.AddModelError("Password", "Senhas Não Conferem");
                 return View();
             }
-            if (_unit.PessoaRepository.SearchFor(p => p.Email == model.Email).Count != 0)
+            using (var client = new HttpClient())
             {
-                ModelState.AddModelError("Email", "Email já Cadastrado");
-                return View();
+                client.BaseAddress = new Uri("http://localhost:2896/");
+                
+                HttpResponseMessage response = client.PostAsJsonAsync("api/pessoaws", model).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["msg"] = "Usuário Cadastrado!";
+                    return View();
+                }
             }
-            if (_unit.PessoaRepository.SearchFor(p => p.UserName == model.UserName).Count != 0)
-            {
-                ModelState.AddModelError("UserName", "Nome de Usuário já Cadastrado");
-                return View();
-            }
+                                 
+            
+            return View();
+            /*
             if (ModelState.IsValid)
             {
                 if (model.Type == "I")
@@ -85,7 +91,7 @@ namespace AM_QMQ.Controllers
             else
             {
                 return View();
-            }
+            }*/
         }
 
         public ActionResult Listar()

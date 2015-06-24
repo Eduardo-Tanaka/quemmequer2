@@ -53,4 +53,24 @@
             @Html.ActionLink("Logar", "Logar", "Pessoa", null, new { @class="btn btn-info" })
         </div>
     </div>
+    
+    <div>
+        <button id="botao">botao</button>
+    </div>
 }
+
+<script>
+    $().ready(function () {
+        $("#Email").blur(function () {
+            $.ajax({
+                url: "http://localhost:2896/api/pessoaws?email=" + $("#Email").val(),
+                type: "get",
+                success: function (retorno) {
+                    if (retorno.length >= 1) {
+                        alert("SDF");
+                    }
+                }
+            })
+        })
+    });
+</script>
