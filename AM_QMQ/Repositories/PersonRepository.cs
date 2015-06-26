@@ -12,8 +12,6 @@ namespace AM_QMQ.Repositories
     {
         public PersonRepository(QMQContext context) : base(context) { }
 
-       
-
         public override void Add(Person entity)
         {
             entity.Password = CriptografiaUtils.CriptografarSHA256(entity.Password);

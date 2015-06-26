@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/content/themes/base/all.css" rel="stylesheet" />
@@ -11,6 +12,8 @@
     <script src="~/Scripts/jquery-2.1.4.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+    <script src="~/scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/scripts/jquery.maskedinput.min.js"></script>
     <script src="~/scripts/jquery.validate.min.js"></script>
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -34,7 +37,13 @@
                             <li>@Html.ActionLink("Logar", "Logar", "Pessoa")</li>
                             <li>@Html.ActionLink("Cadastrar", "Cadastrar", "Pessoa")</li>
                             <li>@Html.ActionLink("ListarPessoa", "Listar", "Pessoa")</li>
-                        </ul>
+                        </ul>                     
+                    </li>
+                    <li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @Html.ActionLink("Editar", "Editar", "Pessoa")
+                        }
                     </li>
                 </ul>
 
@@ -58,7 +67,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p class="text-center">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 

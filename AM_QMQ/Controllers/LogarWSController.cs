@@ -18,7 +18,7 @@ namespace AM_QMQ.Controllers
 
         public Person Post(Person person)
         {
-            var user = _unit.PessoaRepository.Logar(person.Email, person.Password);
+            var user = _unit.PersonRepository.Logar(person.Email, person.Password);
             return user;
         }
         

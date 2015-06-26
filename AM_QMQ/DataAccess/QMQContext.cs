@@ -12,5 +12,12 @@ namespace AM_QMQ.DataAccess
         public DbSet<Person> Pessoas { get; set; }
         public DbSet<PersonIndividual> PessoasFisicas { get; set; }
         public DbSet<PersonLegal> PessoasJuridicas { get; set; }
+        public DbSet<Phone> Phones { get; set; }
+        public DbSet<PhoneType> PhoneTypes { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+
     }
 }

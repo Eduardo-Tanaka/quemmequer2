@@ -11,14 +11,13 @@ namespace AM_QMQ.Models
     public class PersonLegal : Person
     {
         [Column("NAM_TRADING")]
-        [Display(Name="Nome Fantasia")]
+        [MaxLength(128)]
         public string TradingName { get; set; }
 
         [Column("NAM_COMPANY")]
-        [Display(Name="Razao Social")]
         public string CompanyName { get; set; }
 
         [Column("NUM_CNPJ")]
-        public long Cnpj { get; set; }
+        public string Cnpj { get; set; }
     }
 }

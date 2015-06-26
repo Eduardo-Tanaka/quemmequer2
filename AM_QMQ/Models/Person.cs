@@ -28,7 +28,17 @@ namespace AM_QMQ.Models
         [Column("NAM_USER")]
         public string UserName { get; set; }
 
+        [Column("VAL_RANKING")]
+        public int Ranking { get; set; }
+
         [Column("DAT_FILED")]
+        [DataType(DataType.Date)]
         public DateTime FiledDate { get; set; }
+
+        public virtual ICollection<Phone> Phones { get; set; }
+
+        [Column("COD_ADDRESS")]
+        public int AddressId { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

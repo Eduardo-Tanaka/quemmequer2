@@ -14,14 +14,12 @@ namespace AM_QMQ.Models
         public string Name { get; set; }
 
         [Column("NUM_CPF")]
-        public long Cpf { get; set; }
+        public string Cpf { get; set; }
 
         [Column("DES_RG")]
         public string Rg { get; set; }
         
         [Column("DAT_BIRTH")]
-        [Display(Name="Data de Nascimento")]
-        [DataType(DataType.Date)]
-        public DateTime BirthDayDate { get; set; }
+        public DateTime BirthDate { get; set; }
     }
 }

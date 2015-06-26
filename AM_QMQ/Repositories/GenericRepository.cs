@@ -23,7 +23,7 @@ namespace AM_QMQ.Repositories
             _dbSet.Add(entity);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
         }

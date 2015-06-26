@@ -18,6 +18,12 @@ namespace AM_QMQ.ViewsModel
         [Required(ErrorMessage = "Senha Obrigatória")]
         public string Password { get; set; }
 
+        [Display(Name = "Confirmação de Senha")]
+        [Required(ErrorMessage = "Confirmação de Senha Obrigatória")]
+        public string Password2 { get; set; }
+
+        public int Ranking { get; set; }
+
         public string Status { get; set; }
 
         [Display(Name = "Tipo")]
@@ -30,5 +36,12 @@ namespace AM_QMQ.ViewsModel
 
         [DataType(DataType.Date)]
         public DateTime FiledDate { get; set; }
+
+        public int PhoneId1 { get; set; }
+
+        public int PhoneId2 { get; set; }
+
+        public AddressViewModel Address { get; set; }
+
     }
 }

@@ -24,17 +24,17 @@ namespace AM_QMQ.Controllers
 
         public IEnumerable<Person> GetPersonByEmail(string email)
         {
-            return _unit.PessoaRepository.SearchFor(p => p.Email == email);
+            return _unit.PersonRepository.SearchFor(p => p.Email == email);
         }
 
         public IHttpActionResult Post(PersonViewModel model)
         {
-            if (_unit.PessoaRepository.SearchFor(p => p.UserName == model.UserName).Count != 0)
+            if (_unit.PersonRepository.SearchFor(p => p.UserName == model.UserName).Count != 0)
             {
                 ModelState.AddModelError("UserName", "Nome de Usuário já Cadastrado");
                 return BadRequest(ModelState);
             }
-            if (_unit.PessoaRepository.SearchFor(p => p.Email == model.Email).Count != 0)
+            if (_unit.PersonRepository.SearchFor(p => p.Email == model.Email).Count != 0)
             {
                 return BadRequest("Email já cadastrado");
             }
@@ -51,9 +51,9 @@ namespace AM_QMQ.Controllers
                         Password = model.Password,
                         Type = "I",
                         UserName = model.UserName,
-                        BirthDayDate = DateTime.Today
+                        //BirthDate = DateTime.Today
                     };
-                    _unit.PessoaRepository.Add(individual);
+                    _unit.PersonRepository.Add(individual);
                     _unit.Save();
                     var uri = Url.Link("DefaultApi", new { id = model.PersonId });
                     return Created<PersonIndividual>(new Uri(uri), individual);
@@ -70,7 +70,7 @@ namespace AM_QMQ.Controllers
                         Type = "L",
                         UserName = model.UserName
                     };
-                    _unit.PessoaRepository.Add(legal);
+                    _unit.PersonRepository.Add(legal);
                     _unit.Save();
                     var uri = Url.Link("DefaultApi", new { id = model.PersonId });
                     return Created<PersonLegal>(new Uri(uri), legal);
