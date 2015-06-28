@@ -18,6 +18,7 @@ namespace AM_QMQ.DataAccess
         public DbSet<City> Cities { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<Address> Addresses { get; set; }
-
+        public DbSet<Donation> Donations { get; set; }
+        public DbSet<Image> Images { get; set; }
     }
 }

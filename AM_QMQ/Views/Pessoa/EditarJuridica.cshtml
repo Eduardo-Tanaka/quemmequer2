@@ -1,7 +1,96 @@
-﻿
+﻿@model AM_QMQ.ViewsModel.LegalViewModel
 @{
     ViewBag.Title = "EditarJuridica";
 }
 
 <h2>EditarJuridica</h2>
 
+@using (@Html.BeginForm("EditarJuridica", "Pessoa"))
+{
+    @Helper.Mensagem(TempData["msg"] as string, "success")
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(l => l.TradingName)
+            @Html.TextBoxFor(l => l.TradingName, new { @class = "form-control", placeholder = "Nome Fantasia" })
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(l => l.CompanyName)
+            @Html.TextBoxFor(l => l.CompanyName, new { @class = "form-control", placeholder = "Razão Social" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(l => l.Cnpj)
+            @Html.TextBoxFor(l => l.Cnpj, new { @class = "form-control", placeholder = "Cnpj" })
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(l => l.Phone1)
+            @Html.TextBoxFor(l => l.Phone1, new { @class = "form-control", placeholder = "Telefone" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(i => i.Person.Address.Cep)
+            @Html.TextBoxFor(i => i.Person.Address.Cep, new { @class = "form-control", placeholder = "Cep" })
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(i => i.Person.Address.Addition)
+            @Html.TextBoxFor(i => i.Person.Address.Addition, new { @class = "form-control", placeholder = "Complemento" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(i => i.Person.Address.Patio)
+            @Html.TextBoxFor(i => i.Person.Address.Patio, new { @class = "form-control", placeholder = "Endereço" })
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(i => i.Person.Address.Number)
+            @Html.TextBoxFor(i => i.Person.Address.Number, new { @class = "form-control", placeholder = "Número" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-2">
+            @Html.LabelFor(i => i.Person.Address.State)
+            @Html.TextBoxFor(i => i.Person.Address.State, new { @class = "form-control", placeholder = "Estado" })
+        </div>
+        <div class="form-group col-md-5">
+            @Html.LabelFor(i => i.Person.Address.City)
+            @Html.TextBoxFor(i => i.Person.Address.City, new { @class = "form-control", placeholder = "Cidade" })
+        </div>
+        <div class="form-group col-md-5">
+            @Html.LabelFor(i => i.Person.Address.District)
+            @Html.TextBoxFor(i => i.Person.Address.District, new { @class = "form-control", placeholder = "Cidade" })
+        </div>
+    </div>
+
+    <div>
+        @Helper.Botao("Editar", "success")
+    </div>
+}
+
+<script>
+    $().ready(function () {
+
+        $("#Cnpj").inputmask("99.999.999/9999-99");
+
+        $("#Phone1").mask("(99)9999-9999");
+
+        $("#Person_Address_Cep").mask("99999-999");
+        $("#Person_Address_Cep").blur(function () {
+            $.ajax({
+                url: "http://api.postmon.com.br/v1/cep/" + $(this).val(),
+                type: "get",
+                success: function (retorno) {
+                    $("#Person_Address_Patio").val(retorno.logradouro.toUpperCase());
+                    $("#Person_Address_District").val(retorno.bairro.toUpperCase());
+                    $("#Person_Address_City").val(retorno.cidade.toUpperCase());
+                    $("#Person_Address_State").val(retorno.estado.toUpperCase());
+                }
+            })
+        })
+    })
+</script>

@@ -21,5 +21,9 @@ namespace AM_QMQ.Models
         [Column("COD_PERSON")]
         public int PersonId { get; set; }
         public Person Person { get; set; }
+
+        [Column("COD_PHONE_TYPE")]
+        public int? PhoneTypeId { get; set; }
+        public virtual PhoneType PhoneType { get; set; }
     }
 }

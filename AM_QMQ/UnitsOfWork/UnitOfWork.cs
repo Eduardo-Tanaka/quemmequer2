@@ -14,6 +14,8 @@ namespace AM_QMQ.UnitsOfWork
 
         private IGenericRepository<PersonIndividual> _individualRepository;
 
+        private IGenericRepository<PersonLegal> _legalRepository;
+
         private IPersonRepository _pessoaRepository;
 
         private IGenericRepository<Address> _addressRepository;
@@ -23,6 +25,34 @@ namespace AM_QMQ.UnitsOfWork
         private IGenericRepository<State> _stateRepository;
 
         private IGenericRepository<District> _districtRepository;
+
+        private IGenericRepository<Donation> _donationRepository;
+
+        private IGenericRepository<Image> _imageRepository;
+
+        public IGenericRepository<Image> IamgeRepository
+        {
+            get
+            {
+                if (_imageRepository == null)
+                {
+                    _imageRepository = new GenericRepository<Image>(_context);
+                }
+                return _imageRepository;
+            }
+        }
+
+        public IGenericRepository<Donation> DonationRepository
+        {
+            get
+            {
+                if (_donationRepository == null)
+                {
+                    _donationRepository = new GenericRepository<Donation>(_context);
+                }
+                return _donationRepository;
+            }
+        }
 
         public IGenericRepository<District> DistrictRepository
         {
@@ -81,6 +111,18 @@ namespace AM_QMQ.UnitsOfWork
                     _individualRepository = new GenericRepository<PersonIndividual>(_context);
                 }
                 return _individualRepository;
+            }
+        }
+
+        public IGenericRepository<PersonLegal> LegalRepository
+        {
+            get
+            {
+                if (_legalRepository == null)
+                {
+                    _legalRepository = new GenericRepository<PersonLegal>(_context);
+                }
+                return _legalRepository;
             }
         }
 

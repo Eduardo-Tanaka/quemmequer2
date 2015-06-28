@@ -40,5 +40,7 @@ namespace AM_QMQ.Models
         [Column("COD_ADDRESS")]
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
+
+        public virtual ICollection<Donation> Donations { get; set; }
     }
 }

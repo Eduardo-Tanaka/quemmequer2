@@ -15,5 +15,6 @@ namespace AM_QMQ.Models
         [Column("DES_PHONE_TYPE")]
         public string Type { get; set; }
 
+        public virtual ICollection<Phone> Phones { get; set; }
     }
 }

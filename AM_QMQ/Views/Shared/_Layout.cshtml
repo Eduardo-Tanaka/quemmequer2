@@ -4,19 +4,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/content/themes/base/all.css" rel="stylesheet" />
+    <link href="~/content/themes/base/jquery.ui.all.css" rel="stylesheet" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.9.0.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
     <script src="~/scripts/jquery.inputmask/jquery.inputmask.js"></script>
     <script src="~/scripts/jquery.maskedinput.min.js"></script>
     <script src="~/scripts/jquery.validate.min.js"></script>
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <link href="~/content/owlcarousel/owl.carousel.css" rel="stylesheet" />
+    <link href="~/content/owlcarousel/owl.theme.css" rel="stylesheet" />
+    <link href="~/content/owlcarousel/owl.transitions.css" rel="stylesheet" />
+    <script src="~/scripts/owl.carousel.min.js"></script>
+
+    <!-- blueimp Gallery styles -->
+    <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="~/Content/jQuery.FileUpload/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="~/Content/jQuery.FileUpload/css/jquery.fileupload-ui.css">
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -43,6 +57,12 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             @Html.ActionLink("Editar", "Editar", "Pessoa")
+                        }
+                    </li>
+                    <li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @Html.ActionLink("Doação", "Doacao", "Doacao")
                         }
                     </li>
                 </ul>

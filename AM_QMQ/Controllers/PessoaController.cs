@@ -16,12 +16,6 @@ namespace AM_QMQ.Controllers
     {
         private UnitOfWork _unit = new UnitOfWork();
 
-        // GET: Pessoa
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         public ActionResult Cadastrar()
         {
@@ -66,7 +60,7 @@ namespace AM_QMQ.Controllers
                         Phones = list,
                         Address = new Address()
                     };
-                    _unit.PersonRepository .Add(individual);
+                    _unit.PersonRepository.Add(individual);
                     _unit.Save();
                 }
 
@@ -225,8 +219,101 @@ namespace AM_QMQ.Controllers
             }*/
         }
 
+        [HttpGet]
         public ActionResult EditarJuridica()
         {
+            // Recupera a pessoa através do nome de usuário do Cookie
+            List<Person> person = (List<Person>)_unit.PersonRepository.SearchFor(m => m.UserName == User.Identity.Name);
+
+            // Recupera a pessoa jurídica
+            PersonLegal legal = _unit.LegalRepository.SearchById(person[0].PersonId);
+
+            // Telefones 
+            List<Phone> list = legal.Phones.ToList();
+            string p1 = list[0].Ddd + "" + list[0].Number;
+
+            // Dados da Pessoa
+            PersonViewModel p = new PersonViewModel();
+            p.PersonId = legal.PersonId;
+            p.Email = legal.Email;
+            p.FiledDate = legal.FiledDate;
+            p.UserName = legal.UserName;
+            p.Password = legal.Password;
+            p.Type = legal.Type;
+            p.Status = legal.Status;
+            p.Ranking = legal.Ranking;
+
+            // Dados do Endereço
+            p.Address = new AddressViewModel();
+            p.Address.Addition = legal.Address.Addition;
+            p.Address.AddressId = legal.Address.AddressId;
+            p.Address.Cep = legal.Address.Cep;
+            p.Address.Number = legal.Address.Number;
+            p.Address.Patio = legal.Address.Patio;
+            // Verifica se já houve alteração, para não buscar valor nulo
+            if (legal.Address.City != 0)
+            {
+                p.Address.District = legal.Address.District.Name;
+                p.Address.City = legal.Address.District.City.Name;
+                p.Address.State = legal.Address.District.City.State.Abb;
+            }
+            else
+            {
+                p.Address.City = "";
+                p.Address.District = "";
+                p.Address.State = "";
+            }
+
+            // Dados pessoa jurídica
+            LegalViewModel model = new LegalViewModel
+            {
+                Person = p,
+                Cnpj = legal.Cnpj,
+                TradingName = legal.TradingName,
+                CompanyName = legal.CompanyName,
+                Phone1 = p1,
+
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditarJuridica(LegalViewModel model)
+        {
+            List<PersonLegal> legal = (List<PersonLegal>)_unit.LegalRepository.SearchFor(p => p.UserName == User.Identity.Name);
+
+            // Telefone
+            List<Phone> list = legal[0].Phones.ToList();
+            list[0].Ddd = Convert.ToInt32(model.Phone1.Substring(1, 2));
+            list[0].Number = Convert.ToInt32(model.Phone1.Substring(4).Replace("-", ""));
+
+            // Endereço
+            legal[0].Address.Patio = model.Person.Address.Patio;
+            legal[0].Address.Number = model.Person.Address.Number;
+            legal[0].Address.Cep = model.Person.Address.Cep;
+            legal[0].Address.Addition = model.Person.Address.Addition;
+
+            // Código da cidade caso ela não possua bairro para poder recuperar o endereço
+            List<City> cities = (List<City>)_unit.CityRepository.SearchFor(c => c.Name == model.Person.Address.City && c.State.Abb == model.Person.Address.State);
+            int cityId = cities[0].CityId;
+            legal[0].Address.City = cityId;
+
+            // Bairro do endereço
+            List<District> districts = (List<District>)_unit.DistrictRepository.SearchFor(d => d.Name == model.Person.Address.District && d.City.Name == model.Person.Address.City);
+            int districtId = districts[0].DistrictId;
+            legal[0].Address.District = districts[0];
+
+            // Dados pessoa jurídica
+            legal[0].Cnpj = model.Cnpj;
+            legal[0].TradingName = model.TradingName;
+            legal[0].CompanyName = model.CompanyName;
+            legal[0].Phones = list;
+
+            // Faz e comita as alterações
+            _unit.LegalRepository.Update(legal[0]);
+            _unit.AddressRepository.Update(legal[0].Address);
+            _unit.Save();
+            TempData["msg"] = "Usuário Alterado!";
             return View();
         }
 
